@@ -135,7 +135,7 @@ public class LinkedList<E> {
         rangeCheck(index);
 
         Node<E> prev = dummyHead;
-        for (int i = 0; i < i; i++) {
+        for (int i = 0; i < index; i++) {
             prev = prev.next;
         }
         Node<E> retNode = prev.next;
@@ -145,6 +145,13 @@ public class LinkedList<E> {
         return retNode.data;
     }
 
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    public E removeLast() {
+        return remove(size - 1);
+    }
 
     private void rangeCheck(int index) {
         if (index < 0 || index > size) {
