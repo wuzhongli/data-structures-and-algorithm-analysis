@@ -1,4 +1,4 @@
-package com.wzl.datastructuresandalgorithmanalysis.imooc.stackandqueues;
+package com.wzl.datastructuresandalgorithmanalysis.imooc.queue;
 
 import java.util.Random;
 

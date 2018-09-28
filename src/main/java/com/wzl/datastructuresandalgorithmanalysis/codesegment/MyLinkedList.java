@@ -1,6 +1,8 @@
 package com.wzl.datastructuresandalgorithmanalysis.codesegment;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MyLinkedList<E> implements Iterable<E> {
 
@@ -88,6 +90,48 @@ public class MyLinkedList<E> implements Iterable<E> {
     @Override
     public Iterator<E> iterator() {
         return null;
+    }
+
+    private class LinkedListIterator implements Iterator<E> {
+
+        private Node<E> current = head.next;
+        private int expectedModCount = modCount;
+        private boolean okToRemove = false;
+
+        @Override
+        public boolean hasNext() {
+            return current != tail;
+        }
+
+        @Override
+        public E next() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            E next = current.data;
+            current = current.next;
+            okToRemove = true;
+            return next;
+        }
+
+        @Override
+        public void remove() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
+            if (!okToRemove) {
+                throw new IllegalStateException();
+            }
+
+            MyLinkedList.this.remove(current.prev);
+            expectedModCount++;
+            okToRemove = false;
+        }
+
     }
 
     private void doClear() {
