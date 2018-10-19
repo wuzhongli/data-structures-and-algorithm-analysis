@@ -18,11 +18,6 @@ public interface Queue<E> {
     boolean isEmpty();
 
     /**
-     * 判断队列是否已满
-     */
-    boolean isFull();
-
-    /**
      * 入队
      */
     void enqueue(E e);

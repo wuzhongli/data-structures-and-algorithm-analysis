@@ -59,7 +59,6 @@ public class ArrayQueue<E> implements Queue<E> {
         return res.toString();
     }
 
-    @Override
     public boolean isFull() {
         return false;
     }

@@ -35,7 +35,6 @@ public class LoopQueue<E> implements Queue<E> {
         return front == tail;
     }
 
-    @Override
     public boolean isFull() {
         return (tail + 1) % elementData.length == front;
     }
