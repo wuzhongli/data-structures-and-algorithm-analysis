@@ -1,5 +1,10 @@
-package linkedlist.leetcode;
+package leetcode.question203;
 
+/**
+ * 使用虚拟头结点
+ *
+ * @author wzl
+ */
 public class Solution3 {
 
     public ListNode removeElements(ListNode head, int val) {
@@ -19,13 +24,4 @@ public class Solution3 {
         return dummyHead.next;
     }
 
-    public static void main(String[] args) {
-
-        int[] num = {1, 2, 6, 3, 4, 5, 6};
-        ListNode head = new ListNode(num);
-        System.out.println(head);
-
-        ListNode node = (new Solution3()).removeElements(head, 6);
-        System.out.println(node);
-    }
 }

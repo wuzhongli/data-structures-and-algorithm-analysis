@@ -1,5 +1,10 @@
-package linkedlist.leetcode;
+package recursion;
 
+/**
+ * 使用递归的方式对数组求和
+ *
+ * @author wzl
+ */
 public class Sum {
 
     public static int sum(int[] arr) {

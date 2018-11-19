@@ -1,4 +1,4 @@
-package linkedlist.leetcode;
+package leetcode.question203;
 
 public class Solution2 {
 
