@@ -14,6 +14,7 @@
     <module>imooc</module>
     <module>xiaohui</module>
     <module>data-structures-and-algorithm-analysis</module>
+    <module>algorithm-fourth-edition</module>
   </modules>
 
   <dependencies>
