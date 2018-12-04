@@ -1,5 +1,8 @@
 package chapter4;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * 代码清单 4-17 二叉查找树
  *
@@ -52,6 +55,26 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             System.out.println("Empty tree");
         } else {
             printTree(root);
+        }
+    }
+
+    /**
+     * 二分搜索树的层序遍历（广度优先遍历）
+     */
+    public void levelOrder() {
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            BinaryNode current = queue.poll();
+            System.out.println(current.element);
+
+            if (current.left != null) {
+                queue.offer(current.left);
+            }
+            if (current.right != null) {
+                queue.offer(current.right);
+            }
         }
     }
 
@@ -151,37 +174,12 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     }
 
     public static void main(String[] args) {
-        BinarySearchTree<Integer> t = new BinarySearchTree<>();
-        final int NUMS = 100;
-        final int GAP = 37;
-
-        System.out.println("Checking... (no more output means success)");
-
-        for (int i = GAP; i != 0; i = (i + GAP) % NUMS) {
-            t.insert(i);
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        int[] nums = {5, 3, 6, 8, 4, 2};
+        for (int num : nums) {
+            bst.insert(num);
         }
 
-        for (int i = 1; i < NUMS; i += 2) {
-            t.remove(i);
-        }
-
-        if (NUMS < 40) {
-            t.printTree();
-        }
-        if (t.findMin() != 2 || t.findMax() != NUMS - 2) {
-            System.out.println("FindMin or FindMax error!");
-        }
-
-        for (int i = 2; i < NUMS; i += 2) {
-            if (!t.contains(i)) {
-                System.out.println("Find error1!");
-            }
-        }
-
-        for (int i = 1; i < NUMS; i += 2) {
-            if (t.contains(i)) {
-                System.out.println("Find error2!");
-            }
-        }
+        bst.levelOrder();
     }
 }
