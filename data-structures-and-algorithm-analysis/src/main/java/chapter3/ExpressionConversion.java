@@ -3,7 +3,6 @@ package chapter3;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
-import java.util.regex.Pattern;
 
 /**
  * 表达式转换
@@ -12,9 +11,7 @@ import java.util.regex.Pattern;
  */
 public class ExpressionConversion {
 
-    private static Map<Character, Integer> map = new HashMap<>();
-
-    private static final Pattern PATTERN = Pattern.compile("^-?[0-9]+$");
+    private static Map<Character, Integer> map = new HashMap<>(8);
 
     static {
         map.put('+', 0);
@@ -87,54 +84,60 @@ public class ExpressionConversion {
         System.out.println(conversion.evalRPN(tokens2));
     }
 
+    /**
+     * 后缀表达式求值
+     */
     public int evalRPN(String[] tokens) {
         // 操作数栈
-        Stack<Integer> stack = new Stack<>();
-        int left, right;
-        for (int i = 0; i < tokens.length; i++) {
-            String token = tokens[i];
-            // 操作数入栈
-            if (isNumber(token)) {
-                stack.push(Integer.parseInt(token));
-            }
-            // 操作符
-            else if (isOperationSymbol(token)) {
-                right = stack.pop();
-                left = stack.pop();
-                switch (token) {
-                    case "+":
-                        stack.push(left + right);
-                        break;
-                    case "-":
-                        stack.push(left - right);
-                        break;
-                    case "*":
-                        stack.push(left * right);
-                        break;
-                    case "/":
-                        stack.push(left / right);
-                        break;
-                    default:
-                        break;
+//        Stack<Integer> stack = new Stack<>();
+//        int left, right;
+//        for (int i = 0; i < tokens.length; i++) {
+//            String token = tokens[i];
+//            if ("+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token)) {
+//                right = stack.pop();
+//                left = stack.pop();
+//                if ("+".equals(token)) {
+//                    stack.push(left + right);
+//                }
+//                if ("-".equals(token)) {
+//                    stack.push(left - right);
+//                }
+//                if ("*".equals(token)) {
+//                    stack.push(left * right);
+//                }
+//                if ("/".equals(token)) {
+//                    stack.push(left / right);
+//                }
+//            }
+//            else {
+//                stack.push(Integer.parseInt(token));
+//            }
+//        }
+//        return stack.pop();
+
+        int[] stack = new int[tokens.length];
+        int top = 0;
+        for (String str : tokens) {
+            if ("+".equals(str) || "-".equals(str) || "*".equals(str) || "/".equals(str)) {
+                int right = stack[--top];
+                int left = stack[--top];
+                if ("+".equals(str)) {
+                    stack[top++] = left + right;
                 }
-            }
-            // 后缀表达式
-            else {
-                stack.push(evalRPN(token));
+                if ("-".equals(str)) {
+                    stack[top++] = left - right;
+                }
+                if ("*".equals(str)) {
+                    stack[top++] = left * right;
+                }
+                if ("/".equals(str)) {
+                    stack[top++] = left / right;
+                }
+            } else {
+                stack[top++] = Integer.parseInt(str);
             }
         }
-        return stack.pop();
-    }
 
-    private int evalRPN(String token) {
-        return 0;
-    }
-
-    private static boolean isNumber(String str) {
-        return PATTERN.matcher(str).matches();
-    }
-
-    private static boolean isOperationSymbol(String str) {
-        return "+".equals(str) || "-".equals(str) || "*".equals(str) || "/".equals(str);
+        return stack[0];
     }
 }
