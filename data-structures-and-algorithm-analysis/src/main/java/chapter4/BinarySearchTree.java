@@ -8,9 +8,9 @@ import java.util.Queue;
  *
  * @author wzl
  */
-public class BinarySearchTree<T extends Comparable<? super T>> {
+public class BinarySearchTree<E extends Comparable<? super E>> {
 
-    private BinaryNode<T> root;
+    private BinaryNode<E> root;
 
     public BinarySearchTree() {
         root = null;
@@ -24,30 +24,30 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         return root == null;
     }
 
-    public boolean contains(T x) {
-        return contains(x, root);
+    public boolean contains(E e) {
+        return contains(e, root);
     }
 
-    public T findMin() {
+    public E findMin() {
         if (isEmpty()) {
             throw new IllegalStateException();
         }
         return findMin(root).element;
     }
 
-    public T findMax() {
+    public E findMax() {
         if (isEmpty()) {
             throw new IllegalStateException();
         }
         return findMax(root).element;
     }
 
-    public void insert(T x) {
-        root = insert(x, root);
+    public void insert(E e) {
+        root = insert(e, root);
     }
 
-    public void remove(T x) {
-        remove(x, root);
+    public void remove(E e) {
+        remove(e, root);
     }
 
     public void printTree() {
@@ -66,111 +66,109 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         queue.offer(root);
 
         while (!queue.isEmpty()) {
-            BinaryNode current = queue.poll();
-            System.out.println(current.element);
+            BinaryNode binaryNode = queue.poll();
+            System.out.println(binaryNode.element);
 
-            if (current.left != null) {
-                queue.offer(current.left);
+            if (binaryNode.left != null) {
+                queue.offer(binaryNode.left);
             }
-            if (current.right != null) {
-                queue.offer(current.right);
+            if (binaryNode.right != null) {
+                queue.offer(binaryNode.right);
             }
         }
     }
 
-    private boolean contains(T x, BinaryNode<T> t) {
-        if (t == null) {
+    private boolean contains(E e, BinaryNode<E> binaryNode) {
+        if (binaryNode == null) {
             return false;
         }
-        int compareResult = x.compareTo(t.element);
+        int compareResult = e.compareTo(binaryNode.element);
         if (compareResult < 0) {
-            return contains(x, t.left);
+            return contains(e, binaryNode.left);
         } else if (compareResult > 0) {
-            return contains(x, t.right);
+            return contains(e, binaryNode.right);
         } else {
             return true;
         }
 
     }
 
-    private BinaryNode<T> findMin(BinaryNode<T> t) {
-        if (t == null) {
+    private BinaryNode<E> findMin(BinaryNode<E> binaryNode) {
+        if (binaryNode == null) {
             return null;
-        } else if (t.left == null) {
-            return t;
+        } else if (binaryNode.left == null) {
+            return binaryNode;
         } else {
-            return findMin(t.left);
+            return findMin(binaryNode.left);
         }
     }
 
-    private BinaryNode<T> findMax(BinaryNode<T> t) {
-        if (t != null) {
-            while (t.right != null) {
-                t = t.right;
+    private BinaryNode<E> findMax(BinaryNode<E> binaryNode) {
+        if (binaryNode != null) {
+            while (binaryNode.right != null) {
+                binaryNode = binaryNode.right;
             }
         }
-        return t;
+        return binaryNode;
     }
 
-    private BinaryNode<T> insert(T x, BinaryNode<T> t) {
-        if (t == null) {
-            return new BinaryNode<>(x, null, null);
+    private BinaryNode<E> insert(E e, BinaryNode<E> binaryNode) {
+        if (binaryNode == null) {
+            return new BinaryNode<>(e, null, null);
         }
-        int compareResult = x.compareTo(t.element);
+        int compareResult = e.compareTo(binaryNode.element);
         if (compareResult < 0) {
-            t.left = insert(x, t.left);
+            binaryNode.left = insert(e, binaryNode.left);
         } else if (compareResult > 0) {
-            t.right = insert(x, t.right);
+            binaryNode.right = insert(e, binaryNode.right);
         }
-        return t;
+        return binaryNode;
     }
 
-    private BinaryNode<T> remove(T x, BinaryNode<T> t) {
-        // Item not found; do nothing
-        if (t == null) {
-            return t;
+    private BinaryNode<E> remove(E e, BinaryNode<E> binaryNode) {
+        if (binaryNode == null) {
+            return binaryNode;
         }
 
-        int compareResult = x.compareTo(t.element);
+        int compareResult = e.compareTo(binaryNode.element);
         if (compareResult < 0) {
-            t.left = remove(x, t.left);
+            binaryNode.left = remove(e, binaryNode.left);
         } else if (compareResult > 0) {
-            t.right = remove(x, t.right);
+            binaryNode.right = remove(e, binaryNode.right);
         }
-        // Two children
-        else if (t.left != null && t.right != null) {
-            t.element = findMin(t.right).element;
-            t.right = remove(t.element, t.right);
+        else if (binaryNode.left != null && binaryNode.right != null) {
+            binaryNode.element = findMin(binaryNode.right).element;
+            binaryNode.right = remove(binaryNode.element, binaryNode.right);
         } else {
-            t = (t.left != null) ? t.left : t.right;
+            binaryNode = (binaryNode.left != null) ? binaryNode.left : binaryNode.right;
         }
 
-        return t;
+        return binaryNode;
     }
 
-    private void printTree(BinaryNode<T> t) {
-        if (t != null) {
-            printTree(t.left);
-            System.out.println(t.element);
-            printTree(t.right);
+    private void printTree(BinaryNode<E> binaryNode) {
+        if (binaryNode != null) {
+            printTree(binaryNode.left);
+            System.out.println(binaryNode.element);
+            printTree(binaryNode.right);
         }
     }
 
-    private static class BinaryNode<T> {
+    private static class BinaryNode<E> {
 
-        BinaryNode(T element) {
+        BinaryNode(E element) {
             this(element, null, null);
         }
 
-        BinaryNode(T element, BinaryNode<T> left, BinaryNode<T> right) {
+        BinaryNode(E element, BinaryNode<E> left, BinaryNode<E> right) {
             this.element = element;
             this.left = left;
             this.right = right;
         }
 
-        T element;
-        BinaryNode<T> left;
-        BinaryNode<T> right;
+        E element;
+        BinaryNode<E> left;
+        BinaryNode<E> right;
     }
 
     public static void main(String[] args) {

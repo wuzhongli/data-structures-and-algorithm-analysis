@@ -12,24 +12,28 @@ public class AvlTree<E extends Comparable<? super E>> {
 
     private AvlNode<E> root;
 
-    public void insert(E x) {
-        System.out.println("插入节点：" + x);
-        root = insert(x, root);
+    public void insert(E e) {
+        System.out.println("插入节点：" + e);
+        root = insert(e, root);
     }
 
-    private AvlNode<E> insert(E x, AvlNode<E> t) {
-        if (t == null) {
-            return new AvlNode<>(x, null, null);
+    public void remove(E e) {
+        root = remove(e, root);
+    }
+
+    private AvlNode<E> insert(E e, AvlNode<E> avlNode) {
+        if (avlNode == null) {
+            return new AvlNode<>(e, null, null);
         }
 
-        int compareResult = x.compareTo(t.element);
+        int compareResult = e.compareTo(avlNode.element);
         if (compareResult < 0) {
-            t.left = insert(x, t.left);
+            avlNode.left = insert(e, avlNode.left);
         } else if (compareResult > 0) {
-            t.right = insert(x, t.right);
+            avlNode.right = insert(e, avlNode.right);
         }
 
-        return balance(t);
+        return balance(avlNode);
     }
 
     /**
@@ -37,26 +41,26 @@ public class AvlTree<E extends Comparable<? super E>> {
      */
     private static final int ALLOWED_IMBALANCE = 1;
 
-    private AvlNode<E> balance(AvlNode<E> t) {
-        if (t == null) {
-            return t;
+    private AvlNode<E> balance(AvlNode<E> avlNode) {
+        if (avlNode == null) {
+            return avlNode;
         }
-        if (height(t.left) - height(t.right) > ALLOWED_IMBALANCE) {
-            if (height(t.left.left) >= height(t.left.right)) {
-                return rotateWithLeftChild(t);
+        if (height(avlNode.left) - height(avlNode.right) > ALLOWED_IMBALANCE) {
+            if (height(avlNode.left.left) >= height(avlNode.left.right)) {
+                return rotateWithLeftChild(avlNode);
             } else {
-                return doubleWithLeftChild(t);
+                return doubleWithLeftChild(avlNode);
             }
-        } else if (height(t.right) - height(t.left) > ALLOWED_IMBALANCE) {
-            if (height(t.right.right) >= height(t.right.left)) {
-                return rotateWithRightChild(t);
+        } else if (height(avlNode.right) - height(avlNode.left) > ALLOWED_IMBALANCE) {
+            if (height(avlNode.right.right) >= height(avlNode.right.left)) {
+                return rotateWithRightChild(avlNode);
             } else {
-                return doubleWithRightChild(t);
+                return doubleWithRightChild(avlNode);
             }
         }
 
-        t.height = Math.max(height(t.left), height(t.right)) + 1;
-        return t;
+        avlNode.height = Math.max(height(avlNode.left), height(avlNode.right)) + 1;
+        return avlNode;
     }
 
     /**
@@ -106,8 +110,50 @@ public class AvlTree<E extends Comparable<? super E>> {
     /**
      * 返回节点的高度，如果节点为{@code null} 则返回-1
      */
-    private int height(AvlNode<E> t) {
-        return t == null ? -1 : t.height;
+    private int height(AvlNode<E> avlNode) {
+        return avlNode == null ? -1 : avlNode.height;
+    }
+
+    /**
+     * 删除Avl树节点
+     */
+    private AvlNode<E> remove(E e, AvlNode<E> avlNode) {
+        if (avlNode == null) {
+            return null;
+        }
+
+        int compareResult = e.compareTo(avlNode.element);
+        if (compareResult < 0) {
+            avlNode.left = remove(e, avlNode.left);
+        } else if (compareResult > 0) {
+            avlNode.right = remove(e, avlNode.right);
+        } else if (avlNode.left != null && avlNode.right != null) {
+            avlNode.element = findMin(avlNode.right).element;
+            avlNode.right = remove(avlNode.element, avlNode.right);
+        } else {
+            return avlNode.left == null ? avlNode.right : avlNode.left;
+        }
+
+        return balance(avlNode);
+    }
+
+    private AvlNode<E> findMin(AvlNode<E> avlNode) {
+        if (avlNode == null) {
+            return null;
+        }
+        if (avlNode.left == null) {
+            return avlNode;
+        }
+        return findMin(avlNode.left);
+    }
+
+    private AvlNode<E> findMax(AvlNode<E> avlNode) {
+        if (avlNode != null) {
+            while (avlNode.right != null) {
+                avlNode = avlNode.right;
+            }
+        }
+        return avlNode;
     }
 
     /**
