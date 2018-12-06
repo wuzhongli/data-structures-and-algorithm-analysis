@@ -6,8 +6,8 @@ package codesegment;
 public class DivideAndConquer {
 
     public static void main(String[] args) {
-        int[] arrry = {4, -3, 5, -2, -1, 2, 6, -2};
-        System.out.println(maxSubSum3(arrry));
+        int[] array = {4, -3, 5, -2, -1, 2, 6, -2};
+        System.out.println(maxSubSum3(array));
     }
 
     public static int maxSubSum3(int[] a) {

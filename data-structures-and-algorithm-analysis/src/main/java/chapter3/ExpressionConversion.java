@@ -73,71 +73,8 @@ public class ExpressionConversion {
     public static void main(String[] args) {
         String infix = "a+b*c+(d*e+f)*g";
         ExpressionConversion conversion = new ExpressionConversion();
-//        System.out.println(conversion.buildPostExpression(infix));
-//        System.out.println(conversion.buildPostExpression("a-b-c"));
-
-        String[] tokens = {"2", "1", "+", "3", "*"};
-        String[] tokens1 = {"4", "13", "5", "/", "+"};
-        String[] tokens2 = {"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"};
-        System.out.println(conversion.evalRPN(tokens));
-        System.out.println(conversion.evalRPN(tokens1));
-        System.out.println(conversion.evalRPN(tokens2));
+        System.out.println(conversion.buildPostExpression(infix));
+        System.out.println(conversion.buildPostExpression("a-b-c"));
     }
 
-    /**
-     * 后缀表达式求值
-     */
-    public int evalRPN(String[] tokens) {
-        // 操作数栈
-//        Stack<Integer> stack = new Stack<>();
-//        int left, right;
-//        for (int i = 0; i < tokens.length; i++) {
-//            String token = tokens[i];
-//            if ("+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token)) {
-//                right = stack.pop();
-//                left = stack.pop();
-//                if ("+".equals(token)) {
-//                    stack.push(left + right);
-//                }
-//                if ("-".equals(token)) {
-//                    stack.push(left - right);
-//                }
-//                if ("*".equals(token)) {
-//                    stack.push(left * right);
-//                }
-//                if ("/".equals(token)) {
-//                    stack.push(left / right);
-//                }
-//            }
-//            else {
-//                stack.push(Integer.parseInt(token));
-//            }
-//        }
-//        return stack.pop();
-
-        int[] stack = new int[tokens.length];
-        int top = 0;
-        for (String str : tokens) {
-            if ("+".equals(str) || "-".equals(str) || "*".equals(str) || "/".equals(str)) {
-                int right = stack[--top];
-                int left = stack[--top];
-                if ("+".equals(str)) {
-                    stack[top++] = left + right;
-                }
-                if ("-".equals(str)) {
-                    stack[top++] = left - right;
-                }
-                if ("*".equals(str)) {
-                    stack[top++] = left * right;
-                }
-                if ("/".equals(str)) {
-                    stack[top++] = left / right;
-                }
-            } else {
-                stack[top++] = Integer.parseInt(str);
-            }
-        }
-
-        return stack[0];
-    }
 }

@@ -12,6 +12,66 @@ import java.util.Stack;
 public class BinaryTree<E> {
 
     /**
+     * 使用数组构建二叉树 例如 [3, 9, 20, -1, -1, 15, 7]
+     */
+    public static BinaryNode<Integer> buildBinaryTreeByArray(int[] arr, int index, int n) {
+        BinaryNode<Integer> binaryNode = null;
+        if (index < n && arr[index] != -1) {
+            binaryNode = new BinaryNode<>(arr[index], null, null);
+            binaryNode.left = buildBinaryTreeByArray(arr, 2 * index + 1, n);
+            binaryNode.right = buildBinaryTreeByArray(arr, 2 * index + 2, n);
+        }
+        return binaryNode;
+    }
+
+    /**
+     * 使用字符串构建二叉树 例如"[1,2,2,3,3,null,null,4,4]"
+     */
+    public static BinaryNode stringToBinaryNode(String input) {
+        input = input.trim();
+        input = input.substring(1, input.length() - 1);
+        if (input.length() == 0) {
+            return null;
+        }
+
+        String[] parts = input.split(",");
+        String item = parts[0];
+        BinaryNode root = new BinaryNode(Integer.parseInt(item));
+        Queue<BinaryNode> nodeQueue = new LinkedList<>();
+        nodeQueue.add(root);
+
+        int index = 1;
+        while (!nodeQueue.isEmpty()) {
+            BinaryNode node = nodeQueue.remove();
+
+            if (index == parts.length) {
+                break;
+            }
+
+            item = parts[index++];
+            item = item.trim();
+            if (!item.equals("null")) {
+                int leftNumber = Integer.parseInt(item);
+                node.left = new BinaryNode(leftNumber);
+                nodeQueue.add(node.left);
+            }
+
+            if (index == parts.length) {
+                break;
+            }
+
+            item = parts[index++];
+            item = item.trim();
+            if (!item.equals("null")) {
+                int rightNumber = Integer.parseInt(item);
+                node.right = new BinaryNode(rightNumber);
+                nodeQueue.add(node.right);
+            }
+        }
+        return root;
+    }
+
+    /**
      * 使用后缀表达式构造表达式树
      */
     public BinaryNode<Character> buildExpressionTree(String postfixExpression) {

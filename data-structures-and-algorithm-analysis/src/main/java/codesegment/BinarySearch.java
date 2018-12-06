@@ -8,13 +8,13 @@ import java.util.Arrays;
 public class BinarySearch {
 
     public static void main(String[] args) {
-        Integer[] arrry = {4, -3, 5, -2, -1, 2, 6, -2};
-        Arrays.sort(arrry);
-        System.out.println(Arrays.toString(arrry));
-        System.out.println(binrySerach(arrry, -1));
+        Integer[] array = {4, -3, 5, -2, -1, 2, 6, -2};
+        Arrays.sort(array);
+        System.out.println(Arrays.toString(array));
+        System.out.println(binarySearch(array, -1));
     }
 
-    public static <T extends Comparable<? super T>> int binrySerach(T[] a, T t) {
+    public static <T extends Comparable<? super T>> int binarySearch(T[] a, T t) {
         int low = 0;
         int high = a.length - 1;
         while (low <= high) {
