@@ -108,27 +108,14 @@ public class LinkedList<E> {
      * 查找链表中是否有元素e
      */
     public boolean contains(E e) {
-        return indexOf(e) > -1;
-    }
-
-    public int indexOf(E e) {
-        int index = 0;
-        if (e == null) {
-            for (Node<E> node = dummyHead.next; node != null; node = node.next) {
-                if (node.data == null) {
-                    return index;
-                }
-                index++;
+        Node current = dummyHead.next;
+        while (current != null) {
+            if (current.data.equals(e)) {
+                return true;
             }
-        } else {
-            for (Node<E> node = dummyHead.next; node != null; node = node.next) {
-                if (node.equals(e)) {
-                    return index;
-                }
-                index++;
-            }
+            current = current.next;
         }
-        return -1;
+        return false;
     }
 
     public E remove(int index) {
@@ -143,6 +130,27 @@ public class LinkedList<E> {
         retNode.next = null;
         size--;
         return retNode.data;
+    }
+
+    /**
+     * 从链表中删除元素e
+     */
+    public void removeElement(E e) {
+
+        Node prev = dummyHead;
+        while (prev.next != null) {
+            if (prev.next.data.equals(e)) {
+                break;
+            }
+            prev = prev.next;
+        }
+
+        if (prev.next != null) {
+            Node delNode = prev.next;
+            prev.next = delNode.next;
+            delNode.next = null;
+            size--;
+        }
     }
 
     public E removeFirst() {

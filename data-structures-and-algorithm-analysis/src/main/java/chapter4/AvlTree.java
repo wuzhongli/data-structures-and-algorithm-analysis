@@ -131,7 +131,7 @@ public class AvlTree<E extends Comparable<? super E>> {
             avlNode.element = findMin(avlNode.right).element;
             avlNode.right = remove(avlNode.element, avlNode.right);
         } else {
-            return avlNode.left == null ? avlNode.right : avlNode.left;
+            avlNode = (avlNode.left == null) ? avlNode.right : avlNode.left;
         }
 
         return balance(avlNode);

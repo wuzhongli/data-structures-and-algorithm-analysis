@@ -66,7 +66,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     }
 
-    // 二分搜索树的中序遍历
+    /**
+     * 二分搜索树的中序遍历
+     */
     public void inOrder() {
         inOrder(root);
     }
@@ -111,6 +113,16 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
 
         return current.e;
+    }
+
+    /**
+     * 返回以node为根的二分搜索树的最小值所在的节点
+     */
+    private Node min(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return min(node.left);
     }
 
     /**
@@ -169,6 +181,37 @@ public class BinarySearchTree<E extends Comparable<E>> {
             return node.left;
         }
         node.right = removeMax(node.right);
+        return node;
+    }
+
+    /**
+     * 从二分搜索树中删除元素为e的节点
+     */
+    public void remove(E e) {
+        root = remove(root, e);
+    }
+
+    /**
+     * 删除掉以node为根的二分搜索树中值为e的节点, 递归算法 返回删除节点后新的二分搜索树的根
+     */
+    private Node remove(Node node, E e) {
+        if (node == null) {
+            return null;
+        }
+
+        if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        } else if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+            return node;
+        } else if (node.left != null && node.right != null) {
+            node.e = min(node.right).e;
+            node.right = removeMin(node.right);
+        } else {
+            size--;
+            node = (node.left == null) ? node.right : node.left;
+        }
         return node;
     }
 
@@ -266,7 +309,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return res.toString();
     }
 
-    // 生成以node为根节点，深度为depth的描述二叉树的字符串
+    /**
+     * 生成以node为根节点，深度为depth的描述二叉树的字符串
+     */
     private void generateBSTString(Node node, int depth, StringBuilder res) {
 
         if (node == null) {
