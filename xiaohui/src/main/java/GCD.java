@@ -4,7 +4,9 @@ public class GCD {
         System.out.println(gcdOptimalSolution(10, 25));
     }
 
-    // 最优解法 辗转相除法结合更相减损术 并用移位优化辗转相除法
+    /**
+     * 最优解法 辗转相除法结合更相减损术 并用移位优化辗转相除法
+     */
     public static int gcdOptimalSolution(int a, int b) {
         if (a == b) {
             return a;
@@ -31,7 +33,9 @@ public class GCD {
     }
 
 
-    // 辗转相除法
+    /**
+     * 辗转相除法
+     */
     public static int divisor(int a, int b) {
         if (a > b) {
             return gcd(a, b);
@@ -39,8 +43,9 @@ public class GCD {
         return gcd(b, a);
     }
 
-    // 更相减损术
-    // 优化了大整数求模的性能问题
+    /**
+     * 更相减损术 优化了大整数求模的性能问题
+     */
     public static int sub(int a, int b) {
         if (a == b) {
             return a;
