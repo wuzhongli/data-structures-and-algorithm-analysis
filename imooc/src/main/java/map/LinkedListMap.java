@@ -1,8 +1,5 @@
 package map;
 
-import java.util.ArrayList;
-import set.FileOperation;
-
 /**
  * 基于链表实现的映射表
  *
@@ -53,10 +50,27 @@ public class LinkedListMap<K, V> implements Map<K, V> {
         } else {
             node.value = value;
         }
+
     }
 
     @Override
     public V remove(K key) {
+        Node pre = dummyHead;
+        while (pre.next != null) {
+            if (pre.next.key.equals(key)) {
+                break;
+            }
+            pre = pre.next;
+        }
+
+        if (pre.next != null) {
+            Node delNode = pre.next;
+            pre.next = delNode.next;
+            delNode.next = null;
+            size--;
+            return delNode.value;
+        }
+
         return null;
     }
 
@@ -91,6 +105,17 @@ public class LinkedListMap<K, V> implements Map<K, V> {
         return size == 0;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (Node current = dummyHead.next; current != null; current = current.next) {
+            builder.append(current.value + "->");
+        }
+        builder.append("NULL");
+
+        return builder.toString();
+    }
+
     private Node getNode(K key) {
         Node current = dummyHead.next;
         while (current != null) {
@@ -104,26 +129,33 @@ public class LinkedListMap<K, V> implements Map<K, V> {
 
     public static void main(String[] args) {
 
-        System.out.println("Pride and Prejudice");
+//        System.out.println("Pride and Prejudice");
+//
+//        ArrayList<String> words = new ArrayList<>();
+//        if (FileOperation.readFile("pride-and-prejudice.txt", words)) {
+//            System.out.println("Total words: " + words.size());
+//
+//            LinkedListMap<String, Integer> map = new LinkedListMap<>();
+//            for (String word : words) {
+//                if (map.contains(word)) {
+//                    map.set(word, map.get(word) + 1);
+//                } else {
+//                    map.add(word, 1);
+//                }
+//            }
+//
+//            System.out.println("Total different words: " + map.getSize());
+//            System.out.println("Frequency of PRIDE: " + map.get("pride"));
+//            System.out.println("Frequency of PREJUDICE: " + map.get("prejudice"));
+//        }
+//
+//        System.out.println();
 
-        ArrayList<String> words = new ArrayList<>();
-        if (FileOperation.readFile("pride-and-prejudice.txt", words)) {
-            System.out.println("Total words: " + words.size());
-
-            LinkedListMap<String, Integer> map = new LinkedListMap<>();
-            for (String word : words) {
-                if (map.contains(word)) {
-                    map.set(word, map.get(word) + 1);
-                } else {
-                    map.add(word, 1);
-                }
-            }
-
-            System.out.println("Total different words: " + map.getSize());
-            System.out.println("Frequency of PRIDE: " + map.get("pride"));
-            System.out.println("Frequency of PREJUDICE: " + map.get("prejudice"));
+        int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        LinkedListMap<Integer, Integer> linkedListMap = new LinkedListMap<>();
+        for (int i = 0; i < array.length; i++) {
+            linkedListMap.add(i, array[i]);
         }
-
-        System.out.println();
+        System.out.println(linkedListMap);
     }
 }
