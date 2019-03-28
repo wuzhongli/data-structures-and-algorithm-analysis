@@ -188,6 +188,16 @@ public class Array<E> {
         return res.toString();
     }
 
+    public void swap(int i, int j) {
+        if (i < 0 || i >= size || j < 0 || j >= size) {
+            throw new IllegalArgumentException("Index is illegal.");
+        }
+
+        Object t = elementData[i];
+        elementData[i] = elementData[j];
+        elementData[j] = t;
+    }
+
     /**
      * 将数组空间的容量变成newCapacity大小
      */
