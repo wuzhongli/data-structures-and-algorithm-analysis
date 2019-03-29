@@ -19,6 +19,13 @@ public class MaxHeap<E extends Comparable<E>> {
         data = new Array<>();
     }
 
+    public MaxHeap(E[] arr) {
+        data = new Array<>(arr);
+        for (int i = parent(data.getSize() - 1); i >= 0; i--) {
+            siftDown(i);
+        }
+    }
+
     public int size() {
         return data.getSize();
     }
@@ -57,6 +64,13 @@ public class MaxHeap<E extends Comparable<E>> {
         // 交换堆首尾元素 以实现删除堆顶元素
         data.swap(0, data.getSize() - 1);
         data.removeLast();
+        siftDown(0);
+        return result;
+    }
+
+    public E replace(E e) {
+        E result = findMax();
+        data.set(0, e);
         siftDown(0);
         return result;
     }
